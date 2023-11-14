@@ -1,4 +1,34 @@
 /* Your Code Here */
+function createEmployeeRecord(array) {
+    const employeeRecord = [];
+
+    employeeRecord.firstName = array[0];
+    employeeRecord.familyName = array[1];
+    employeeRecord.title = array[2];
+    employeeRecord.payPerHour = array[3];
+    employeeRecord.timeInEvents = [];
+    employeeRecord.timeOutEvents = [];
+
+    return employeeRecord;
+}
+
+function createEmployeeRecords(newArray) {
+    const employeeRecords = newArray.map((record) => {
+        return createEmployeeRecord(record);
+    });
+
+    return employeeRecords;
+}
+
+function createTimeInEvent(time) {
+    let record = time.split(/[ :-]/);
+    let timeStamp = []
+    timeStamp.type = "TimeIn";
+    timeStamp.hour = record[3];
+    timeStamp.date = record.join("-");
+    return timeStamp;
+}
+
 
 /*
  We're giving you this function. Take a look at it, you might see some usage
