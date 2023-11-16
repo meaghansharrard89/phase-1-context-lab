@@ -21,13 +21,55 @@ function createEmployeeRecords(newArray) {
 }
 
 function createTimeInEvent(time) {
-    let record = time.split(/[ :-]/);
-    let timeStamp = []
-    timeStamp.type = "TimeIn";
-    timeStamp.hour = record[3];
-    timeStamp.date = record.join("-");
-    return timeStamp;
+    let [date, hour] = time.split(" ");
+    let [year, month, day] = date.split ("-");
+
+    let timeStamp = {
+        type: "TimeIn",
+        hour: parseInt(hour),
+        date: `${year}-${month}-${day}`
+};
+
+    this.timeInEvents.push(timeStamp)
+    
+    return this;
 }
+
+function createTimeOutEvent(time) {
+    let [date, hour] = time.split(" ");
+    let [year, month, day] = date.split("-");
+
+    let timeStamp = {
+        type: "TimeOut",
+        hour: parseInt(hour),
+        date: `${year}-${month}-${day}`
+    };
+
+    this.timeOutEvents.push(timeStamp)
+
+    return this;
+}
+
+function hoursWorkedOnDate(date) {
+
+    //We use the find method on the timeInEvents/timeOutEvents array of the employee record to locate the specific timeInEvent object that matches the given date.
+    const timeInEvent = this.timeInEvents.find(event => event.date === date);
+    const timeOutEvent = this.timeOutEvents.find(event => event.date === date);
+  
+    //We extract the hour from both the timeInEvent and timeOutEvent objects and convert them to integers using parseInt.
+    const timeInHour = parseInt(timeInEvent.hour, 10);
+    const timeOutHour = parseInt(timeOutEvent.hour, 10);
+
+    let hoursWorked;
+  
+    if (timeOutHour >= timeInHour) {
+        hoursWorked = timeOutHour - timeInHour;
+    } else {
+        hoursWorked = 24 - timeInHour + timeOutHour;
+    }
+  
+    return hoursWorked;
+  }
 
 
 /*
